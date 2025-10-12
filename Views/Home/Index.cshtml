@@ -1,8 +1,18 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home - AirBB";
+    Layout = "_MainLayout"; 
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="hero-section d-flex align-items-center justify-content-center text-white">
+    <div class="overlay"></div>
+    <div class="container text-center hero-content">
+        <h1 class="display-3 fw-bold mb-3 animate-fade">Welcome to <span class="brand">AirBB</span></h1>
+        <p class="lead mb-4 animate-fade-delay">
+            Discover unique homes, unforgettable experiences, and curated services.
+        </p>
+        <a class="btn btn-lg btn-light fw-semibold px-4 py-2 shadow-sm rounded-pill"
+           asp-controller="Residence" asp-action="List">
+            Explore Homes
+        </a>
+    </div>
+</section>
