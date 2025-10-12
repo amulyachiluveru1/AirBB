@@ -1,0 +1,64 @@
+﻿body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    font-weight: 500;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #ff5a5f !important;
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff !important;
+    transition: color 0.3s, transform 0.3s;
+}
+
+    .navbar-nav .nav-link:hover {
+        color: #ffc107 !important;
+        transform: translateY(-2px);
+    }
+
+.navbar-toggler {
+    border-color: #ffc107;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,...");
+}
+
+.container {
+    padding: 2rem 1rem;
+}
+
+    .container > .card-content {
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+
+a {
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+    a:hover {
+        color: #ffc107;
+    }
+
+footer {
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 1rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
