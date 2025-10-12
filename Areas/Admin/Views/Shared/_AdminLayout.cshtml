@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "_Layout"; 
+}
+<link rel="stylesheet" href="~/css/adminsite.css" />
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" asp-area="Admin" asp-controller="Home" asp-action="Index">AirBnb - Admin</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav" aria-controls="adminNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="adminNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Site</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-3">
+    @RenderBody()
+</div>
