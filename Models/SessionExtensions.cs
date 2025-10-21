@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 
 namespace AirBB.Models

@@ -12,13 +12,13 @@
         {
             _session = session;
         }
-        public void SetFilters(AirbnbViewModel filters)
+        public void SetFilters(AirBnbViewModel filters)
         {
             _session.SetObject(FilterKey, filters);
         }
 
-        public AirbnbViewModel GetFilters() =>
-            _session.GetObject<AirbnbViewModel>(FilterKey) ?? new AirbnbViewModel();
+        public AirBnbViewModel GetFilters() =>
+            _session.GetObject<AirBnbViewModel>(FilterKey) ?? new AirBnbViewModel();
         public void SetReservations(List<Reservation> reservations)
         {
             _session.SetObject(ReservationKey, reservations);
