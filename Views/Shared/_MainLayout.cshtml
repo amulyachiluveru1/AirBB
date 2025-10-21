@@ -12,9 +12,18 @@
 
             <div class="collapse navbar-collapse" id="mainNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" asp-controller="Residence" asp-action="List" asp-route-id="All">Homes</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Homes</a></li>
                     <li class="nav-item"><a class="nav-link" asp-controller="Experience" asp-action="List" asp-route-id="All">Experiences</a></li>
                     <li class="nav-item"><a class="nav-link" asp-controller="Service" asp-action="List" asp-route-id="All">Services</a></li>
+                    @{
+                        var resCount = ViewBag.ReservationCount ?? 0;
+                    }
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" asp-controller="Reservation" asp-action="Index">
+                        <i class="fa fa-bookmark"></i> Reservations
+                        <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">@resCount</span>
+                    </a></li>
+
                 </ul>
 
                 <ul class="navbar-nav ms-auto">
@@ -39,3 +48,4 @@
         <a class="text-decoration-none" asp-controller="Home" asp-action="CookiePolicy">Cookie Policies</a>
     </div>
 </footer>
+@RenderSection("Scripts", required: false)

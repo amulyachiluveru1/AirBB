@@ -55,10 +55,37 @@ body {
     max-width: 800px;
 }
 
-.brand {
-    color: #ff5a5f;
+.text-info {
+    color: #ff5a5f !important;
 }
 
+.btn-outline-info {
+    color: #ff5a5f;
+    border-color: #ff5a5f;
+    background-color: transparent;
+    transition: all 0.3s ease;
+}
+
+    .btn-outline-info:hover,
+    .btn-outline-info:focus {
+        background-color: #ff5a5f;
+        color: #fff;
+        border-color: #ff5a5f;
+    }
+
+.btn-info {
+    background-color: #ff5a5f;
+    border-color: #ff5a5f;
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+    .btn-info:hover,
+    .btn-info:focus {
+        background-color: #e14b50;
+        border-color: #e14b50;
+        color: #fff;
+    }
 
 @keyframes fadeInUp {
     from {
@@ -126,9 +153,9 @@ body {
     color: #ff5a5f !important;
 }
 
-.navbar-nav.ms-auto .nav-link:hover {
-    color: #218838 !important;
-}
+    .navbar-nav.ms-auto .nav-link:hover {
+        color: #218838 !important;
+    }
 
 /* Main content */
 main.container-fluid {
@@ -144,15 +171,15 @@ footer {
     font-size: 0.9rem;
 }
 
-footer a {
-    color: #495057;
-    transition: color 0.3s, text-decoration 0.3s;
-}
-
-    footer a:hover {
-        color: #ff5a5f;
-        text-decoration: underline;
+    footer a {
+        color: #495057;
+        transition: color 0.3s, text-decoration 0.3s;
     }
+
+        footer a:hover {
+            color: #ff5a5f;
+            text-decoration: underline;
+        }
 
 /* Responsive spacing for navbar */
 @media (max-width: 992px) {

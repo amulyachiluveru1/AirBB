@@ -25,7 +25,7 @@ namespace AirBB.Controllers
 
             var vm = new AirBnbViewModel
             {
-                Residence = residence,
+                SelectedResidence = residence,
                 Locations = _context.Locations.OrderBy(l => l.Name).ToList()
             };
 
@@ -59,7 +59,7 @@ namespace AirBB.Controllers
 
             _context.Reservations.Add(reservation);
             _context.SaveChanges();
-
+            _cookies.AddReservationId(reservation.ReservationId);
             TempData["ReservationMessage"] = $"Reserved from {start:MM/dd/yyyy} to {end:MM/dd/yyyy}";
             return RedirectToAction("Index", "Home");
         }

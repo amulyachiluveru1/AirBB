@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AirBB.Models.AirBnbViewModel
+@{
     ViewData["Title"] = "Home - AirBB";
     Layout = "_MainLayout"; 
 }
@@ -16,3 +17,114 @@
         </a>
     </div>
 </section>
+<div class="container my-5">
+    <div class="row">
+        <!-- Filter Panel -->
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <h5 class="mb-3 fw-semibold text-info ">Find Your Stay</h5>
+                    <form method="get" asp-action="Index">
+                        <div class="mb-3">
+                            <label class="form-label">Where</label>
+                            <select class="form-select" name="selectedLocationId">
+                                <option value="">All</option>
+                                @foreach (var loc in Model.Locations)
+                                {
+                                    var isSelected = Model.SelectedLocation == loc.LocationId ? "selected" : "";
+                                    <option value="@loc.LocationId" selected="@isSelected">@loc.Name</option>
+                                }
+
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">When</label>
+                            <input id="daterange" class="form-control" />
+                            <input type="hidden" id="start" name="start" value="@(Model.CheckIn?.ToString("yyyy-MM-dd") ?? "")" />
+                            <input type="hidden" id="end" name="end" value="@(Model.CheckOut?.ToString("yyyy-MM-dd") ?? "")" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Who</label>
+                            <input type="number" name="guests" min="1" class="form-control" value="@(Model.Guests)" />
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-info text-white w-50">Filter</button>
+                            <a class="btn btn-outline-info w-50" href="@Url.Action("Index", "Home", new { reset = true })">Reset</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Panel -->
+        <div class="col-md-9">
+            <div class="row">
+                @if (Model.Residences != null && Model.Residences.Any())
+                {
+                    foreach (var r in Model.Residences)
+                    {
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 shadow-sm border-0 rounded-3">
+                                <img src="~/images/@r.ResidencePicture"
+                                     class="card-img-top"
+                                     style="height:200px; object-fit:cover"
+                                     alt="@r.Name" />
+                                <div class="card-body">
+                                    <h5 class="card-title fw-semibold">@r.Name</h5>
+                                    <p class="card-text text-muted mb-1">@r.Location?.Name</p>
+                                    <p class="card-text mb-3"><strong class="text-info">@r.PricePerNight.ToString("C")</strong> / night</p>
+                                    <a asp-controller="Residence" asp-action="Detail" asp-route-id="@r.ResidenceId"
+                                       class="btn btn-outline-info btn-sm rounded-pill">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12 text-center py-5">
+                        <p class="text-muted fs-5">No residences found for chosen filters.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {<script>
+    $(function () {
+        const startInput = $("#start");
+        const endInput = $("#end");
+
+        $('#daterange').daterangepicker({
+            autoUpdateInput: false,
+            locale: {
+                cancelLabel: 'Clear',
+                format: 'MM/DD/YYYY'
+            },
+            opens: 'right'
+        });
+
+        $('#daterange').on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+
+            startInput.val(picker.startDate.format('YYYY-MM-DD'));
+            endInput.val(picker.endDate.format('YYYY-MM-DD'));
+        });
+
+        $('#daterange').on('cancel.daterangepicker', function (ev, picker) {
+            $(this).val('');
+            startInput.val('');
+            endInput.val('');
+        });
+
+        if (startInput.val() && endInput.val()) {
+            const start = moment(startInput.val());
+            const end = moment(endInput.val());
+            $('#daterange').val(start.format('MM/DD/YYYY') + ' - ' + end.format('MM/DD/YYYY'));
+        }
+    });
+</script>
+}

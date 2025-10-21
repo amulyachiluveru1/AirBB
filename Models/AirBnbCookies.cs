@@ -1,4 +1,6 @@
-﻿namespace AirBB.Models
+﻿using NuGet.Packaging.Signing;
+using System.Text.Json;
+namespace AirBB.Models
 {
     public class AirBnbCookies
     {
@@ -10,7 +12,7 @@
             _accessor = accessor;
         }
 
-        public void SetReservationCookie(string reservationIds, int days = 7)
+        public void SetReservationCookie(List<int> reservationIds, int days = 7)
         {
             var options = new CookieOptions
             {
@@ -18,13 +20,48 @@
                 HttpOnly = true,
                 IsEssential = true
             };
-            _accessor.HttpContext!.Response.Cookies.Append(ReservationCookieKey, reservationIds, options);
+            var json = JsonSerializer.Serialize(reservationIds.Distinct().ToList());
+            _accessor.HttpContext!.Response.Cookies.Append(ReservationCookieKey, json, options);
         }
 
         public string? GetReservationCookie()
         {
             _accessor.HttpContext!.Request.Cookies.TryGetValue(ReservationCookieKey, out string? ids);
             return ids;
+        }
+        public List<int> GetReservationIds()
+        {
+            var req = _accessor.HttpContext!.Request;
+            if (req.Cookies.TryGetValue(ReservationCookieKey, out var json))
+            {
+                try
+                {
+                    return JsonSerializer.Deserialize<List<int>>(json) ?? new List<int>();
+                }
+                catch
+                {
+                    return new List<int>();
+                }
+            }
+            return new List<int>();
+        }
+
+        public void AddReservationId(int id)
+        {
+            var ids = GetReservationIds();
+            if (!ids.Contains(id))
+                ids.Add(id);
+            SetReservationCookie(ids);
+        }
+
+        public void RemoveReservationId(int id)
+        {
+            var ids = GetReservationIds();
+            if (ids.Contains(id))
+            {
+                ids.Remove(id);
+                SetReservationCookie(ids);
+            }
         }
 
         public void RemoveReservationCookie()
