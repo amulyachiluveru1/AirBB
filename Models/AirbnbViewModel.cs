@@ -1,15 +1,21 @@
 ﻿namespace AirBB.Models
 {
-    public class AirbnbViewModel
+    public class AirBnbViewModel
     {
-        public IEnumerable<Residence> Residences { get; set; }
-        public IEnumerable<Location> Locations { get; set; }
-        public int? SelectedLocationId { get; set; } 
-        public DateTime? RequestedStart { get; set; }
-        public DateTime? RequestedEnd { get; set; }
-        public int GuestCount { get; set; } = 1;
-        public Residence SelectedResidence { get; set; }
-        public IEnumerable<Reservation> Reservations { get; set; }
+        public List<Residence>? Residences { get; set; }
+        public List<Location>? Locations { get; set; }
+        public List<Reservation>? Reservations { get; set; }
+        public string? SelectedLocation { get; set; }
+        public int Guests { get; set; }
+        public DateTime? CheckIn { get; set; }
+        public DateTime? CheckOut { get; set; }
+
+        public AirBnbViewModel()
+        {
+            Residences = new List<Residence>();
+            Locations = new List<Location>();
+            Reservations = new List<Reservation>();
+        }
     }
 
 }

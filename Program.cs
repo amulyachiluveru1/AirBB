@@ -1,8 +1,20 @@
+using AirBB.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDbContext<AirBnBContext>(
+    options => options.UseSqlServer(
+        builder.Configuration.GetConnectionString("AirBBContext")));
+builder.Services.AddRouting(options =>
+{
+    options.LowercaseUrls = true;
+    options.AppendTrailingSlash = true;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -15,6 +27,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
 
