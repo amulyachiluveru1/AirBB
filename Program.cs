@@ -41,6 +41,7 @@ app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
 // map route for Admin area
 app.MapAreaControllerRoute(
     name: "admin",

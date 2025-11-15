@@ -1,0 +1,30 @@
+﻿@model List<AirBB.Models.Location>
+@{
+    ViewData["Title"] = "Manage Locations";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Locations</h2>
+
+<a asp-action="AddUpdate" class="btn btn-primary mb-3">Add New Location</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th width="180">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var loc in Model)
+        {
+            <tr>
+                <td>@loc.Name</td>
+                <td>
+                    <a asp-action="AddUpdate" asp-route-id="@loc.LocationId" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@loc.LocationId" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

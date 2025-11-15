@@ -32,37 +32,7 @@ namespace AirBB.Controllers
             return View(vm);
         }
 
-        [HttpPost]
-        public IActionResult Reserve(int residenceId, DateTime start, DateTime end)
-        {
-            if (start.Date > end.Date)
-            {
-                TempData["ReservationMessage"] = "Invalid date range.";
-                return RedirectToAction("Index", "Home");
-            }
-            bool conflict = _context.Reservations.Any(r =>
-                            r.ResidenceId == residenceId && r.ReservationStartDate <= end && r.ReservationEndDate >= start);
-
-            if (conflict)
-            {
-                TempData["ReservationMessage"] = "Residence not available for selected dates.";
-                return RedirectToAction("Index", "Home");
-            }
-
-            var reservation = new Reservation
-            {
-                ResidenceId = residenceId,
-                ReservationStartDate = start.Date,
-                ReservationEndDate = end.Date,
-                ClientUserId = "guest" 
-            };
-
-            _context.Reservations.Add(reservation);
-            _context.SaveChanges();
-            _cookies.AddReservationId(reservation.ReservationId);
-            TempData["ReservationMessage"] = $"Reserved from {start:MM/dd/yyyy} to {end:MM/dd/yyyy}";
-            return RedirectToAction("Index", "Home");
-        }
+        
         public IActionResult List(string id = "All")
         {
             var area = RouteData.Values["area"] ?? "Public";

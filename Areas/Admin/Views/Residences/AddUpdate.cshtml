@@ -1,0 +1,121 @@
+﻿@model Residence
+@{
+    bool isEdit = Model.ResidenceId != 0;
+    ViewData["Title"] = isEdit ? "Edit Residence" : "Create Residence";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-8">
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0">@ViewData["Title"]</h4>
+                </div>
+
+                <div class="card-body">
+
+                    @if (TempData["ModelError"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @TempData["ModelError"]
+                        </div>
+                    }
+
+                    <form asp-action="AddUpdate" method="post">
+                        <input type="hidden" asp-for="ResidenceId" />
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <div class="row g-3">
+
+                            <!-- Location -->
+                            <div class="col-md-6">
+                                <label asp-for="LocationId" class="form-label"></label>
+                                <select asp-for="LocationId" class="form-select"
+                                        asp-items="@(new SelectList(ViewBag.Locations, "LocationId", "Name", Model.LocationId))">
+                                    <option value="">-- Select Location --</option>
+                                </select>
+                                <span asp-validation-for="LocationId" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Name -->
+                            <div class="col-md-6">
+                                <label asp-for="Name" class="form-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Owner Id -->
+                            <div class="col-md-6">
+                                <label asp-for="OwnerId" class="form-label"></label>
+                                <select asp-for="OwnerId" class="form-select"
+                                        asp-items="@(new SelectList(ViewBag.Owners, "UserId", "Name"))">
+                                    <option value="">-- Select Owner --</option>
+                                </select>
+                                <span asp-validation-for="OwnerId" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Accommodation -->
+                            <div class="col-md-6">
+                                <label asp-for="Accommodation" class="form-label"></label>
+                                <input asp-for="Accommodation" class="form-control" />
+                                <span asp-validation-for="Accommodation" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Bedrooms -->
+                            <div class="col-md-6">
+                                <label asp-for="Bedrooms" class="form-label"></label>
+                                <input asp-for="Bedrooms" class="form-control" />
+                                <span asp-validation-for="Bedrooms" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Bathrooms -->
+                            <div class="col-md-6">
+                                <label asp-for="Bathrooms" class="form-label"></label>
+                                <input asp-for="Bathrooms" class="form-control" />
+                                <span asp-validation-for="Bathrooms" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Built Year -->
+                            <div class="col-md-6">
+                                <label asp-for="BuiltYear" class="form-label"></label>
+                                <input asp-for="BuiltYear" class="form-control" />
+                                <span asp-validation-for="BuiltYear" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Image -->
+                            <div class="col-md-6">
+                                <label asp-for="ImageFileName" class="form-label"></label>
+                                <input asp-for="ImageFileName" class="form-control" />
+                                <span asp-validation-for="ImageFileName" class="text-danger small"></span>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="col-md-6">
+                                <label asp-for="PricePerNight" class="form-label"></label>
+                                <input asp-for="PricePerNight" class="form-control" />
+                                <span asp-validation-for="PricePerNight" class="text-danger small"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-4 d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Back to List
+                            </a>
+
+                            <button type="submit" class="btn btn-info px-4">
+                                <i class="bi bi-save"></i> @(isEdit ? "Update" : "Save")
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

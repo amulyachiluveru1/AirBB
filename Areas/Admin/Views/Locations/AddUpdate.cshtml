@@ -1,0 +1,18 @@
+﻿@model AirBB.Models.Location
+@{
+    ViewData["Title"] = "Add Update Location";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>@(Model.LocationId == 0 ? "Add Location" : "Edit Location")</h2>
+
+<form asp-action="AddUpdate" method="post">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <button class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

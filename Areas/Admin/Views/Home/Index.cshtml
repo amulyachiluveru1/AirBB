@@ -4,8 +4,32 @@
 }
 
 <h2>Administrator Dashboard</h2>
-<p>Welcome to the Admin area of AirBB. This is a simple admin home page for Phase 1.</p>
+<p>Welcome to the Admin area of AirBB. This is a simple admin home page for Phase 3.</p>
+<div class="row mt-4">
+    <div class="col-md-4 mb-3">
+        @* <a href="/Admin/Residences/Index" *@
+        <a asp-area="Admin" asp-controller="Residences" asp-action="Index"
+           class="btn btn-primary w-100 py-3 d-flex align-items-center justify-content-center gap-2 shadow-sm">
+            <i class="bi bi-house-door fs-4"></i>
+            <span class="fs-5">Manage Residence</span>
+        </a>
+    </div>
+    <div class="col-md-4 mb-3">
+        <a asp-area="Admin" asp-controller="Locations" asp-action="Index"
+           class="btn btn-success w-100 py-3 d-flex align-items-center justify-content-center gap-2 shadow-sm">
+            <i class="bi bi-geo-alt fs-4"></i>
+            <span class="fs-5">Manage Location</span>
+        </a>
+    </div>
+    <div class="col-md-4 mb-3">
+        <a asp-area="Admin" asp-controller="Users" asp-action="Index"
+           class="btn btn-warning w-100 py-3 d-flex align-items-center justify-content-center gap-2 shadow-sm">
+            <i class="bi bi-people fs-4"></i>
+            <span class="fs-5">Manage User</span>
+        </a>
+    </div>
 
+</div>
 <div>
     <p>Use the top-right <strong>Site</strong> link to go back to the public site.</p>
 </div>
