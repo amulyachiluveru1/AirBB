@@ -18,7 +18,7 @@ namespace AirBB.Models
         [RegularExpression("^[a-zA-Z0-9 ]+$",ErrorMessage = "Name must be alphanumeric only.")]
         public string Name { get; set; } = string.Empty;
         [Required]
-        [Remote(action: "CheckOwner", controller: "Validation")]
+        [Remote(action: "CheckOwner", controller: "Validation", areaName: "Admin")]
         [Display(Name = "Owner Id")]
         public int OwnerId { get; set; }
         public User? Owner { get; set; }

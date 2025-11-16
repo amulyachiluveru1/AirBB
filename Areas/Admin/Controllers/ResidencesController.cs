@@ -18,7 +18,8 @@ namespace AirBB.Areas.Admin.Controllers
         public IActionResult AddUpdate(int? id)
         {
             ViewBag.Locations = _db.Locations.OrderBy(l => l.Name).ToList();
-            ViewBag.Owners = _db.Users.Where(u => u.UserType == "Owner").OrderBy(u => u.Name).ToList();
+            ViewBag.Owners = _db.Users.OrderBy(u => u.Name).ToList();
+            //ViewBag.Owners = _db.Users.Where(u => u.UserType == "Owner").OrderBy(u => u.Name).ToList();
             if (id == null || id == 0)
             {
                 // Create mode
@@ -38,7 +39,8 @@ namespace AirBB.Areas.Admin.Controllers
             {
                 TempData["ModelError"] = "Please fix the error";
                 ViewBag.Locations = _db.Locations.OrderBy(l => l.Name).ToList();
-                ViewBag.Owners = _db.Users.Where(u => u.UserType == "Owner").OrderBy(u => u.Name).ToList();
+                ViewBag.Owners = _db.Users.OrderBy(u => u.Name).ToList();
+                //ViewBag.Owners = _db.Users.Where(u => u.UserType == "Owner").OrderBy(u => u.Name).ToList();
                 return View(model);
             }
 
