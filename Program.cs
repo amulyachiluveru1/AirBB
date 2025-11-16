@@ -2,14 +2,26 @@ using AirBB.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var dataDirectory = Path.Combine(builder.Environment.ContentRootPath, "App_Data");
+Directory.CreateDirectory(dataDirectory);
+
+var dbPath = Path.Combine(dataDirectory, "airbb.db");
+
+builder.Services.AddDbContext<AirBnBContext>(options =>
+    options.UseSqlite($"Data Source={dbPath}"));
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<AirBnBContext>(
-    options => options.UseSqlServer(
-        builder.Configuration.GetConnectionString("AirBBContext")));
+//builder.Services.AddDbContext<AirBnBContext>(
+//    options => options.UseSqlServer(
+//        builder.Configuration.GetConnectionString("AirBBContext")));
+////var connStr = builder.Configuration.GetConnectionString("AirBBContext");
+
+////// Option 1: Use connection string from appsettings
+////builder.Services.AddDbContext<AirBnBContext>(options =>
+////    options.UseSqlite(connStr));
 builder.Services.AddRouting(options =>
 {
     options.LowercaseUrls = true;
@@ -25,7 +37,11 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 var app = builder.Build();
-
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AirBnBContext>();
+    db.Database.Migrate();
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

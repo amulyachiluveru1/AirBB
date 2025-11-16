@@ -111,7 +111,7 @@ namespace AirBB.Controllers
                 q = q.Where(r => !reservedResidenceIds.Contains(r.ResidenceId));
             }
 
-            var residences = await q.OrderBy(r => r.PricePerNight).ToListAsync();
+            var residences = await q.OrderBy(r => (double)r.PricePerNight).ToListAsync();
             var locations = await _context.Locations.OrderBy(l => l.Name).ToListAsync();
 
             var vm = new AirBnbViewModel
