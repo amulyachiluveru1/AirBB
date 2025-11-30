@@ -1,4 +1,5 @@
 ﻿using AirBB.Models.DataLayer;
+using AirBB.Models.DataLayer.Repositories;
 using AirBB.Models.DomainModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,61 +9,98 @@ namespace AirBB.Areas.Admin.Controllers
     [Area("Admin")]
     public class ResidencesController : Controller
     {
-        private readonly AirBnBContext _db;
-        public ResidencesController(AirBnBContext ctx) => _db = ctx;
+        private readonly IResidenceRepository _resRepo;
+        private readonly ILocationRepository _locRepo;
+        private readonly IUserRepository _userRepo;
+
+        public ResidencesController(
+            IResidenceRepository resRepo,
+            ILocationRepository locRepo,
+            IUserRepository userRepo)
+        {
+            _resRepo = resRepo;
+            _locRepo = locRepo;
+            _userRepo = userRepo;
+        }
 
         public IActionResult Index()
         {
-            var list = _db.Residences.Include(r => r.Location).Include(r => r.Owner).ToList();
+            var options = new QueryOptions<Residence>
+            {
+                Includes = "Location,Owner",
+                OrderBy = r => r.ResidenceId
+            };
+
+            var list = _resRepo.List(options).ToList();
             return View(list);
         }
+
         public IActionResult AddUpdate(int? id)
         {
-            ViewBag.Locations = _db.Locations.OrderBy(l => l.Name).ToList();
-            ViewBag.Owners = _db.Users.OrderBy(u => u.Name).ToList();
-            //ViewBag.Owners = _db.Users.Where(u => u.UserType == "Owner").OrderBy(u => u.Name).ToList();
-            if (id == null || id == 0)
+            var locationOptions = new QueryOptions<Location>
             {
-                // Create mode
-                return View(new Residence());
-            }
+                OrderBy = l => l.Name,
+                OrderByDirection = "asc"
+            };
+            var OwnerOptions = new QueryOptions<User>
+            {
+                OrderBy = l => l.Name,
+                OrderByDirection = "asc"
+            };
 
-            // Edit mode
-            var entity = _db.Residences.FirstOrDefault(x => x.ResidenceId == id);
-            if (entity == null) return NotFound();
+            ViewBag.Locations = _locRepo.List(locationOptions).ToList();
+            ViewBag.Owners = _userRepo.List(OwnerOptions).ToList();
+            if (id == null || id == 0)
+                return View(new Residence());
+
+            var entity = _resRepo.Get(id.Value);
+            if (entity == null)
+                return NotFound();
 
             return View(entity);
         }
+
         [HttpPost]
         public IActionResult AddUpdate(Residence model)
         {
             if (!ModelState.IsValid)
             {
                 TempData["ModelError"] = "Please fix the error";
-                ViewBag.Locations = _db.Locations.OrderBy(l => l.Name).ToList();
-                ViewBag.Owners = _db.Users.OrderBy(u => u.Name).ToList();
-                //ViewBag.Owners = _db.Users.Where(u => u.UserType == "Owner").OrderBy(u => u.Name).ToList();
+                var locationOptions = new QueryOptions<Location>
+                {
+                    OrderBy = l => l.Name,
+                    OrderByDirection = "asc"
+                };
+                var OwnerOptions = new QueryOptions<User>
+                {
+                    OrderBy = l => l.Name,
+                    OrderByDirection = "asc"
+                };
+
+                ViewBag.Locations = _locRepo.List(locationOptions).ToList();
+                ViewBag.Owners = _userRepo.List(OwnerOptions).ToList();
+
                 return View(model);
             }
 
             if (model.ResidenceId == 0)
-            {
-                _db.Residences.Add(model);
-            }
+                _resRepo.Insert(model);
             else
-            {
-                _db.Residences.Update(model);
-            }
+                _resRepo.Update(model);
 
-            _db.SaveChanges();
+            _resRepo.Save();
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Delete(int id)
         {
-            var entity = _db.Residences
-                .Include(r => r.Location)
-                .FirstOrDefault(r => r.ResidenceId == id);
+            var options = new QueryOptions<Residence>
+            {
+                Includes = "Location,Owner",
+                Where = r => r.ResidenceId == id
+            };
+
+            var entity = _resRepo.List(options).FirstOrDefault();
 
             if (entity == null)
                 return NotFound();
@@ -71,17 +109,16 @@ namespace AirBB.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteConfirmed(int ResidenceId)
+        public IActionResult DeleteConfirmed(int residenceId)
         {
-            var entity = _db.Residences.Find(ResidenceId);
+            var entity = _resRepo.Get(residenceId);
             if (entity == null)
                 return NotFound();
 
-            _db.Residences.Remove(entity);
-            _db.SaveChanges();
+            _resRepo.Delete(entity);
+            _resRepo.Save();
 
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

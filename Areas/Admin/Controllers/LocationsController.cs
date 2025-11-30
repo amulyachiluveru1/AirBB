@@ -1,4 +1,5 @@
 ﻿using AirBB.Models.DataLayer;
+using AirBB.Models.DataLayer.Repositories;
 using AirBB.Models.DomainModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,12 +8,22 @@ namespace AirBB.Areas.Admin.Controllers
     [Area("Admin")]
     public class LocationsController : Controller
     {
-        private readonly AirBnBContext _ctx;
-        public LocationsController(AirBnBContext ctx) => _ctx = ctx;
+        private readonly ILocationRepository _locationRepo;
+
+        public LocationsController(ILocationRepository locationRepo)
+        {
+            _locationRepo = locationRepo;
+        }
 
         public IActionResult Index()
         {
-            return View(_ctx.Locations.OrderBy(l => l.Name).ToList());
+            var options = new QueryOptions<Location>
+            {
+                OrderBy = l => l.Name
+            };
+
+            var locations = _locationRepo.List(options).ToList();
+            return View(locations);
         }
 
         public IActionResult AddUpdate(int? id)
@@ -20,11 +31,11 @@ namespace AirBB.Areas.Admin.Controllers
             if (id == null || id == 0)
                 return View(new Location());
 
-            var entity = _ctx.Locations.Find(id);
-            if (entity == null)
+            var location = _locationRepo.Get(id.Value);
+            if (location == null)
                 return NotFound();
 
-            return View(entity);
+            return View(location);
         }
 
         [HttpPost]
@@ -34,32 +45,37 @@ namespace AirBB.Areas.Admin.Controllers
                 return View(model);
 
             if (model.LocationId == 0)
-                _ctx.Locations.Add(model);
+            {
+                _locationRepo.Insert(model);
+            }
             else
-                _ctx.Locations.Update(model);
+            {
+                _locationRepo.Update(model);
+            }
 
-            _ctx.SaveChanges();
+            _locationRepo.Save();
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Delete(int id)
         {
-            var entity = _ctx.Locations.Find(id);
-            if (entity == null)
+            var location = _locationRepo.Get(id);
+            if (location == null)
                 return NotFound();
 
-            return View(entity);
+            return View(location);
         }
 
         [HttpPost]
         public IActionResult DeleteConfirmed(int locationId)
         {
-            var entity = _ctx.Locations.Find(locationId);
+            var entity = _locationRepo.Get(locationId);
             if (entity == null)
                 return NotFound();
 
-            _ctx.Locations.Remove(entity);
-            _ctx.SaveChanges();
+            _locationRepo.Delete(entity);
+            _locationRepo.Save();
+
             return RedirectToAction(nameof(Index));
         }
     }

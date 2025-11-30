@@ -8,5 +8,10 @@ namespace AirBB.Models.DataLayer.Repositories
         public ResidenceRepository(AirBnBContext ctx) : base(ctx) { }
 
     }
+    public class UserRepository : Repository<User>, IUserRepository
+    {
+        public UserRepository(AirBnBContext ctx) : base(ctx) { }
+
+    }
 
 }
