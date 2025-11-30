@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AirBB.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class SeedData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,8 +74,6 @@ namespace AirBB.Migrations
                     BuiltYear = table.Column<int>(type: "INTEGER", nullable: false),
                     ImageFileName = table.Column<string>(type: "TEXT", nullable: true),
                     GuestNumber = table.Column<int>(type: "INTEGER", nullable: false),
-                    BedroomNumber = table.Column<int>(type: "INTEGER", nullable: false),
-                    BathroomNumber = table.Column<int>(type: "INTEGER", nullable: false),
                     PricePerNight = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -122,8 +120,11 @@ namespace AirBB.Migrations
                 columns: new[] { "ClientId", "DOB", "Email", "Name", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { 1, null, "clientA@mail.com", "Client A", "9999999999" },
-                    { 2, null, "clientB@mail.com", "Client B", "8888888888" }
+                    { 1, new DateTime(1990, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "john@example.com", "John Doe", "1234567890" },
+                    { 2, new DateTime(1988, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "emma@example.com", "Emma Watson", "9876543210" },
+                    { 3, new DateTime(1985, 11, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "chris@example.com", "Chris Evans", "7778889999" },
+                    { 4, new DateTime(1993, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), "mia@example.com", "Mia Smith", "5551237890" },
+                    { 5, new DateTime(1995, 9, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), "liam@example.com", "Liam Brown", "4442221111" }
                 });
 
             migrationBuilder.InsertData(
@@ -131,10 +132,11 @@ namespace AirBB.Migrations
                 columns: new[] { "LocationId", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Chicago" },
-                    { 2, "New York" },
-                    { 3, "Miami" },
-                    { 4, "Atlanta" }
+                    { 1, "New York" },
+                    { 2, "Los Angeles" },
+                    { 3, "Chicago" },
+                    { 4, "Boston" },
+                    { 5, "Miami" }
                 });
 
             migrationBuilder.InsertData(
@@ -142,20 +144,22 @@ namespace AirBB.Migrations
                 columns: new[] { "UserId", "Email", "Name", "PhoneNumber", "SSN", "UserType" },
                 values: new object[,]
                 {
-                    { 201, "john@mail.com", "John Owner", "1111111111", "111-22-3333", "Owner" },
-                    { 202, "emma@mail.com", "Emma Owner", "2222222222", "444-55-6666", "Owner" },
-                    { 203, "mike@mail.com", "Michael Owner", "3333333333", "777-88-9999", "Owner" }
+                    { 1, "owner1@mail.com", "Owner One", "7001002003", "SSN001", "Owner" },
+                    { 2, "owner2@mail.com", "Owner Two", "7001002004", "SSN002", "Owner" },
+                    { 3, "clientA@mail.com", "Client A", "7001002005", "SSN003", "Client" },
+                    { 4, "clientB@mail.com", "Client B", "7001002006", "SSN004", "Client" },
+                    { 5, "clientC@mail.com", "Client C", "7001002007", "SSN005", "Client" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Residences",
-                columns: new[] { "ResidenceId", "Accommodation", "BathroomNumber", "Bathrooms", "BedroomNumber", "Bedrooms", "BuiltYear", "GuestNumber", "ImageFileName", "LocationId", "Name", "OwnerId", "PricePerNight" },
+                columns: new[] { "ResidenceId", "Accommodation", "Bathrooms", "Bedrooms", "BuiltYear", "GuestNumber", "ImageFileName", "LocationId", "Name", "OwnerId", "PricePerNight" },
                 values: new object[,]
                 {
-                    { 101, 3, 0, 1m, 0, 1, 2000, 0, "chi_loop.jpg", 1, "Chicago Loop Apartment", 201, 120m },
-                    { 102, 2, 0, 1m, 0, 0, 2005, 0, "nyc_studio.jpg", 2, "NYC Cozy Studio", 202, 150m },
-                    { 103, 6, 0, 2m, 0, 3, 1998, 0, "miami_beach.jpg", 3, "Miami Beach House", 203, 320m },
-                    { 104, 5, 0, 2m, 0, 3, 2010, 0, "atl_house.jpg", 4, "Atlanta Suburban House", 204, 180m }
+                    { 1, 4, 1.5m, 2, 2010, 5, "atl_house.jpg", 1, "Central Apartment", 1, 120m },
+                    { 2, 6, 2m, 3, 2015, 3, "chi_loop.jpg", 2, "Ocean View House", 2, 200m },
+                    { 3, 2, 1m, 1, 2020, 10, "nyc_studio.jpg", 3, "City Studio", 1, 90m },
+                    { 4, 5, 1.5m, 2, 2018, 1, "miami_beach.jpg", 4, "Modern Condo", 2, 150m }
                 });
 
             migrationBuilder.InsertData(
@@ -163,8 +167,9 @@ namespace AirBB.Migrations
                 columns: new[] { "ReservationId", "ClientUserId", "ReservationEndDate", "ReservationStartDate", "ResidenceId" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 101 },
-                    { 2, 2, new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 103 }
+                    { 1, 3, new DateTime(2025, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
+                    { 2, 4, new DateTime(2025, 2, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2 },
+                    { 3, 5, new DateTime(2025, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), 3 }
                 });
 
             migrationBuilder.CreateIndex(

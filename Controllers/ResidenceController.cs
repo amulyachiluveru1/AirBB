@@ -1,4 +1,8 @@
-﻿using AirBB.Models;
+﻿using AirBB.Models.DataLayer;
+using AirBB.Models.DataLayer.Repositories;
+using AirBB.Models.DomainModels;
+using AirBB.Models.ExtensionMethods;
+using AirBB.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,30 +12,34 @@ namespace AirBB.Controllers
     {
         private readonly AirBnBContext _context;
         private readonly AirBnbCookies _cookies;
-
-        public ResidenceController(AirBnBContext context, IHttpContextAccessor accessor)
+        private readonly IResidenceRepository _residenceRepo;
+        private readonly ILocationRepository _locationRepo;
+        public ResidenceController(AirBnBContext context, IHttpContextAccessor accessor,IResidenceRepository residenceRepo, ILocationRepository locationRepo)
         {
             _context = context;
+            _residenceRepo = residenceRepo;
             _cookies = new AirBnbCookies(accessor);
+            _locationRepo = locationRepo;
         }
         [HttpGet]
         public IActionResult Detail(int id)
         {
-            var residence = _context.Residences
-                .Include(r => r.Location)
-                .FirstOrDefault(r => r.ResidenceId == id);
+            var residence = _residenceRepo.Get(id);
 
             if (residence == null) return NotFound();
 
             var vm = new AirBnbViewModel
             {
                 SelectedResidence = residence,
-                Locations = _context.Locations.OrderBy(l => l.Name).ToList()
+                Locations = _locationRepo.List(new QueryOptions<Location>
+                {
+                    OrderBy = l => l.Name
+                }).ToList()
+
             };
 
             return View(vm);
         }
-
         
         public IActionResult List(string id = "All")
         {

@@ -1,4 +1,4 @@
-﻿@model AirBB.Models.User
+﻿@model User
 @{
     ViewData["Title"] = "Add Update User";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -18,6 +18,8 @@
     <div class="mb-3">
         <label asp-for="PhoneNumber"></label>
         <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
     </div>
 
     <div class="mb-3">

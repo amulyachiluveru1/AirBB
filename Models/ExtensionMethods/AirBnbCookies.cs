@@ -1,6 +1,6 @@
 ﻿using NuGet.Packaging.Signing;
 using System.Text.Json;
-namespace AirBB.Models
+namespace AirBB.Models.ExtensionMethods
 {
     public class AirBnbCookies
     {

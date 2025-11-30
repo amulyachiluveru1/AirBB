@@ -1,4 +1,5 @@
-using AirBB.Models;
+using AirBB.Models.DataLayer;
+using AirBB.Models.DataLayer.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,10 @@ builder.Services.AddSession();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IResidenceRepository, ResidenceRepository>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
+
 //builder.Services.AddDbContext<AirBnBContext>(
 //    options => options.UseSqlServer(
 //        builder.Configuration.GetConnectionString("AirBBContext")));

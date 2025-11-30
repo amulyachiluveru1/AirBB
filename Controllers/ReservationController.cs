@@ -1,4 +1,7 @@
-﻿using AirBB.Models;
+﻿using AirBB.Models.DataLayer;
+using AirBB.Models.DomainModels;
+using AirBB.Models.ExtensionMethods;
+using AirBB.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

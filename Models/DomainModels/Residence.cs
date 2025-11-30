@@ -3,7 +3,7 @@ using AirbnbProject.Models.Validation;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace AirBB.Models
+namespace AirBB.Models.DomainModels
 {
     public class Residence
     {
@@ -42,8 +42,8 @@ namespace AirBB.Models
         public string? ImageFileName { get; set; }
 
         public int GuestNumber { get; set; }
-        public int BedroomNumber { get; set; }
-        public int BathroomNumber { get; set; }
+        //public int BedroomNumber { get; set; }
+        //public int BathroomNumber { get; set; }
         [Required]
         [Range(0, 9999999, ErrorMessage = "Price must be numeric.")]
         public decimal PricePerNight { get; set; }

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 
-namespace AirBB.Models
+namespace AirBB.Models.ExtensionMethods
 {
     public static class SessionExtensions
     {

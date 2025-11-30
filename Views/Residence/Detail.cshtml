@@ -1,4 +1,5 @@
-﻿@model AirBB.Models.AirBnbViewModel
+﻿@using AirBB.Models.ViewModels
+@model AirBnbViewModel
 @{
     ViewData["Title"] = "Home - AirBB";
     Layout = "_MainLayout";
@@ -12,8 +13,8 @@
         <h2 class="text-info fw-bold">@res.Name</h2>
         <p><strong>Location:</strong> @res.Location?.Name</p>
         <p><strong>Guests:</strong> @res.GuestNumber</p>
-        <p><strong>Bedrooms:</strong> @res.BedroomNumber</p>
-        <p><strong>Bathrooms:</strong> @res.BathroomNumber</p>
+        <p><strong>Bedrooms:</strong> @res.Bedrooms</p>
+        <p><strong>Bathrooms:</strong> @res.Bathrooms</p>
         <p><strong>Price:</strong> @res.PricePerNight.ToString("C") / night</p>
 
         <form asp-controller="Reservation" asp-action="Reserve" method="post" class="mt-3">

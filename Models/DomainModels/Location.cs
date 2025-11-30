@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Security.Policy;
 
-namespace AirBB.Models
+namespace AirBB.Models.DomainModels
 {
     public class Location
     {

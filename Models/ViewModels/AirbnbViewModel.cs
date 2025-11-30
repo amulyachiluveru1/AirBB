@@ -1,4 +1,6 @@
-﻿namespace AirBB.Models
+﻿using AirBB.Models.DomainModels;
+
+namespace AirBB.Models.ViewModels
 {
     public class AirBnbViewModel
     {

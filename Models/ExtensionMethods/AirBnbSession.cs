@@ -1,4 +1,7 @@
-﻿namespace AirBB.Models
+﻿using AirBB.Models.DomainModels;
+using AirBB.Models.ViewModels;
+
+namespace AirBB.Models.ExtensionMethods
 {
     public class AirBnbSession
     {
